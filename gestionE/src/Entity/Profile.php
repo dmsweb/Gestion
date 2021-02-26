@@ -27,13 +27,13 @@ class Profile
     private $libelle;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="profile")
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="profileID")
      */
-    private $profile;
+    private $users;
 
     public function __construct()
     {
-        $this->profile = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -56,27 +56,27 @@ class Profile
     /**
      * @return Collection|User[]
      */
-    public function getProfile(): Collection
+    public function getUsers(): Collection
     {
-        return $this->profile;
+        return $this->users;
     }
 
-    public function addProfile(User $profile): self
+    public function addUser(User $user): self
     {
-        if (!$this->profile->contains($profile)) {
-            $this->profile[] = $profile;
-            $profile->setProfile($this);
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setProfileID($this);
         }
 
         return $this;
     }
 
-    public function removeProfile(User $profile): self
+    public function removeUser(User $user): self
     {
-        if ($this->profile->removeElement($profile)) {
+        if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($profile->getProfile() === $this) {
-                $profile->setProfile(null);
+            if ($user->getProfileID() === $this) {
+                $user->setProfileID(null);
             }
         }
 

@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User implements UserInterface
@@ -25,9 +25,9 @@ class User implements UserInterface
      */
     private $username;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    // /**
+    //  * @ORM\Column(type="json")
+    //  */
     // private $roles = [];
 
     /**
@@ -42,7 +42,7 @@ class User implements UserInterface
     private $isActive;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Profile::class, inversedBy="profile")
+     * @ORM\ManyToOne(targetEntity=Profile::class, inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
      */
     private $profile;
@@ -69,13 +69,13 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        return [strtoupper($this->profile->getLibelle())];
-    }
+   /**
+* @see UserInterface
+*/
+public function getRoles(): array
+{
+return [strtoupper($this->profile->getLibelle())];
+}
 
     /**
      * @see UserInterface
@@ -132,4 +132,5 @@ class User implements UserInterface
 
         return $this;
     }
+
 }
