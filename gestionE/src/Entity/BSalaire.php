@@ -29,6 +29,21 @@ class BSalaire
      */
     private $annee;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $salaireBase;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $salaireBrut;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $surSalaire;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +69,42 @@ class BSalaire
     public function setAnnee(string $annee): self
     {
         $this->annee = $annee;
+
+        return $this;
+    }
+
+    public function getSalaireBase(): ?string
+    {
+        return $this->salaireBase;
+    }
+
+    public function setSalaireBase(string $salaireBase): self
+    {
+        $this->salaireBase = $salaireBase;
+
+        return $this;
+    }
+
+    public function getSalaireBrut(): ?string
+    {
+        return $this->salaireBrut;
+    }
+
+    public function setSalaireBrut(string $salaireBrut): self
+    {
+        $this->salaireBrut = $salaireBrut;
+
+        return $this;
+    }
+
+    public function getSurSalaire(): ?string
+    {
+        return $this->surSalaire;
+    }
+
+    public function setSurSalaire(string $surSalaire): self
+    {
+        $this->surSalaire = $surSalaire;
 
         return $this;
     }

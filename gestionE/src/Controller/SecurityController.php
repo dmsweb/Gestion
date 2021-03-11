@@ -3,11 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Profile;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
@@ -43,4 +47,55 @@ class SecurityController extends AbstractController
        $this->tokenStorage = $tokenStorage;
        
    }
+   /**
+    * @Route("/ListeUser", name="ListeUser", methods={"GET"})
+    */
+    public function listerUser(UserRepository $repos )
+    {
+            $users= new User();
+            $list= $repos->findAll();
+
+            // dd($list);
+            $list= $this->getDoctrine()->getRepository(User::class);
+            $liste= $list->findAll();
+
+            $data= [];
+            $i=0;
+            $users= $this->tokenStorage->getToken()->getUser();
+            $profile= $users->getRoles()[0];
+
+            if ($profile === 'ROLE_ADMIN') 
+            {
+                foreach ($liste as $user)
+                {
+                    if ($user->getProfile()->getLibelle() === 'ROLE_SECRETAIRE' ||
+                        $user->getProfile()->getLibelle() === 'ROLE_EMPLOYE')
+                        {
+                        $data[$i]=$user;
+                        $i++;
+
+                    }
+                }
+            }
+            elseif($profile=== 'ROLE_SECRETAIRE')
+            {
+                foreach($liste as $user)
+                {
+                    if ($user->getProfile()->getLibelle() === 'ROLE_EMPLOYE') 
+                    {
+                        $data[$i]=$user;
+                        $i++;
+
+                    }
+                }
+            }
+            else {
+                $data = [
+                    'status' => 401,
+                    'message' => 'Désolé access non autorisé !!!'
+                    ];
+                
+            }
+            return $this->json($data, 200);
+    }
 }

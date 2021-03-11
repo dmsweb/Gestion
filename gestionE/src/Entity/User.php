@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Employe;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User implements UserInterface
@@ -17,11 +21,13 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"user:read", "user:write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"user:read", "user:write"})
      */
     private $username;
 
@@ -33,19 +39,34 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"user:read", "user:write"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"user:read", "user:write"})
      */
     private $isActive;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Profile::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Profile", inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"user:read", "user:write"})
      */
     private $profile;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Employe", mappedBy="idUser")
+     * @Groups({"user:read", "user:write"})
+     */
+    private $employes;
+
+    public function __construct()
+    {
+        $this->employes = new ArrayCollection();
+        $this->isActive = true;
+    }
 
     public function getId(): ?int
     {
@@ -133,4 +154,33 @@ return [strtoupper($this->profile->getLibelle())];
         return $this;
     }
 
+    /**
+     * @return Collection|Employe[]
+     */
+    public function getEmployes(): Collection
+    {
+        return $this->employes;
+    }
+
+    public function addEmployes(Employe $employes): self
+    {
+        if (!$this->employes->contains($employes)) {
+            $this->employes[] = $employes;
+            $employes->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployes(Employe $employes): self
+    {
+        if ($this->employes->removeElement($employes)) {
+            // set the owning side to null (unless already changed)
+            if ($employes->getIdUser() === $this) {
+                $employes->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

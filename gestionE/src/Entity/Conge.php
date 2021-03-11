@@ -44,6 +44,12 @@ class Conge
      */
     private $nbrJours;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Employe::class, inversedBy="conges")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $employe;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +111,18 @@ class Conge
     public function setNbrJours(string $nbrJours): self
     {
         $this->nbrJours = $nbrJours;
+
+        return $this;
+    }
+
+    public function getEmploye(): ?Employe
+    {
+        return $this->employe;
+    }
+
+    public function setEmploye(?Employe $employe): self
+    {
+        $this->employe = $employe;
 
         return $this;
     }

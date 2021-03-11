@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\EmployeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -68,6 +70,28 @@ class Employe
      * @ORM\Column(type="date", nullable=true)
      */
     private $dateEmbauche;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="employes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $idUser;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Conge", mappedBy="employe")
+     */
+    private $conges;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="employes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $idService;
+
+    public function __construct()
+    {
+        $this->conges = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -190,6 +214,60 @@ class Employe
     public function setDateEmbauche(?\DateTimeInterface $dateEmbauche): self
     {
         $this->dateEmbauche = $dateEmbauche;
+
+        return $this;
+    }
+
+    public function getIdUser(): ?User
+    {
+        return $this->idUser;
+    }
+
+    public function setIdUser(?User $idUser): self
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Conge[]
+     */
+    public function getConges(): Collection
+    {
+        return $this->conges;
+    }
+
+    public function addConge(Conge $conge): self
+    {
+        if (!$this->conges->contains($conge)) {
+            $this->conges[] = $conge;
+            $conge->setEmploye($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConge(Conge $conge): self
+    {
+        if ($this->conges->removeElement($conge)) {
+            // set the owning side to null (unless already changed)
+            if ($conge->getEmploye() === $this) {
+                $conge->setEmploye(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getIdService(): ?Service
+    {
+        return $this->idService;
+    }
+
+    public function setIdService(?Service $idService): self
+    {
+        $this->idService = $idService;
 
         return $this;
     }
