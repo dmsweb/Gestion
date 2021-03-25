@@ -20,11 +20,6 @@ class Permission
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $nom;
-
-    /**
      * @ORM\Column(type="date")
      */
     private $dateDu;
@@ -44,21 +39,14 @@ class Permission
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Employe::class, inversedBy="permissions")
+     */
+    private $employers;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): self
-    {
-        $this->nom = $nom;
-
-        return $this;
     }
 
     public function getDateDu(): ?\DateTimeInterface
@@ -105,6 +93,18 @@ class Permission
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getEmployers(): ?Employe
+    {
+        return $this->employers;
+    }
+
+    public function setEmployers(?Employe $employers): self
+    {
+        $this->employers = $employers;
 
         return $this;
     }

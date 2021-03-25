@@ -66,12 +66,12 @@ class Employe
     private $sfamiliale;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $dateRecrut;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateEmbauche;
 
@@ -101,9 +101,20 @@ class Employe
      */
     public $image;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Fonction::class, inversedBy="employes")
+     */
+    private $fonction;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Permission::class, mappedBy="employers")
+     */
+    private $permissions;
+
     public function __construct()
     {
         $this->conges = new ArrayCollection();
+        $this->permissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -281,6 +292,48 @@ class Employe
     public function setIdService(?Service $idService): self
     {
         $this->idService = $idService;
+
+        return $this;
+    }
+
+    public function getFonction(): ?Fonction
+    {
+        return $this->fonction;
+    }
+
+    public function setFonction(?Fonction $fonction): self
+    {
+        $this->fonction = $fonction;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Permission[]
+     */
+    public function getPermissions(): Collection
+    {
+        return $this->permissions;
+    }
+
+    public function addPermission(Permission $permission): self
+    {
+        if (!$this->permissions->contains($permission)) {
+            $this->permissions[] = $permission;
+            $permission->setEmployers($this);
+        }
+
+        return $this;
+    }
+
+    public function removePermission(Permission $permission): self
+    {
+        if ($this->permissions->removeElement($permission)) {
+            // set the owning side to null (unless already changed)
+            if ($permission->getEmployers() === $this) {
+                $permission->setEmployers(null);
+            }
+        }
 
         return $this;
     }

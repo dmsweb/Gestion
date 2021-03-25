@@ -26,20 +26,22 @@ class Service
      */
     private $nomService;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Fonction::class, inversedBy="services")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $idFonction;
+    
 
     /**
      * @ORM\OneToMany(targetEntity=Employe::class, mappedBy="idService")
      */
     private $employes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Fonction::class, mappedBy="service")
+     */
+    private $fonctions;
+
     public function __construct()
     {
         $this->employes = new ArrayCollection();
+        $this->fonctions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -55,18 +57,6 @@ class Service
     public function setNomService(string $nomService): self
     {
         $this->nomService = $nomService;
-
-        return $this;
-    }
-
-    public function getIdFonction(): ?Fonction
-    {
-        return $this->idFonction;
-    }
-
-    public function setIdFonction(?Fonction $idFonction): self
-    {
-        $this->idFonction = $idFonction;
 
         return $this;
     }
@@ -95,6 +85,36 @@ class Service
             // set the owning side to null (unless already changed)
             if ($employe->getIdService() === $this) {
                 $employe->setIdService(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Fonction[]
+     */
+    public function getFonctions(): Collection
+    {
+        return $this->fonctions;
+    }
+
+    public function addFonction(Fonction $fonction): self
+    {
+        if (!$this->fonctions->contains($fonction)) {
+            $this->fonctions[] = $fonction;
+            $fonction->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFonction(Fonction $fonction): self
+    {
+        if ($this->fonctions->removeElement($fonction)) {
+            // set the owning side to null (unless already changed)
+            if ($fonction->getService() === $this) {
+                $fonction->setService(null);
             }
         }
 

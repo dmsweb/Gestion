@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Employe;
 use App\Entity\Profile;
 use App\Repository\UserRepository;
+use App\Repository\EmployeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -84,6 +86,58 @@ class SecurityController extends AbstractController
                     if ($user->getProfile()->getLibelle() === 'ROLE_EMPLOYE') 
                     {
                         $data[$i]=$user;
+                        $i++;
+
+                    }
+                }
+            }
+            else {
+                $data = [
+                    'status' => 401,
+                    'message' => 'Désolé access non autorisé !!!'
+                    ];
+                
+            }
+            return $this->json($data, 200);
+    }
+
+    /**
+    * @Route("/listeEmployes", name="liste", methods={"GET"})
+    */
+    public function listerEmploye(EmployeRepository $ripos )
+    {
+            $employe= new Employe();
+            $list= $ripos->findAll();
+
+            // dd($list);
+            $list= $this->getDoctrine()->getRepository(Employe::class);
+            $liste= $list->findAll();
+
+            $data= [];
+            $i=0;
+            $users= $this->tokenStorage->getToken()->getUser();
+            $profile= $users->getRoles()[0];
+
+            if ($profile === 'ROLE_ADMIN') 
+            {
+                foreach ($liste as $employe)
+                {
+                    if ($employe->getIdUser()->getProfile()->getLibelle() === 'ROLE_SECRETAIRE' ||
+                        $employe->getIdUser()->getProfile()->getLibelle() === 'ROLE_EMPLOYE')
+                        {
+                        $data[$i]=$employe;
+                        $i++;
+
+                    }
+                }
+            }
+            elseif($profile=== 'ROLE_SECRETAIRE')
+            {
+                foreach($liste as $employe)
+                {
+                    if ($employe->getIdUser()->getProfile()->getLibelle() === 'ROLE_EMPLOYE') 
+                    {
+                        $data[$i]=$employe;
                         $i++;
 
                     }

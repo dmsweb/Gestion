@@ -27,18 +27,12 @@ class Profile
     private $libelle;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="user")
-     */
-    private $profile;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="profile")
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="profile")
      */
     private $users;
 
     public function __construct()
     {
-        $this->profile = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
 
@@ -58,37 +52,6 @@ class Profile
 
         return $this;
     }
-    /**
-     * @return Collection|User[]
-     */
-    public function getProfile(): Collection
-    {
-        return $this->profile;
-    }
-
-    public function addProfile(User $profile): self
-    {
-        if (!$this->profile->contains($profile)) {
-            $this->profile[] = $profile;
-            $profile->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProfile(User $profile): self
-    {
-        if ($this->profile->contains($profile)) {
-            $this->profile->removeElement($profile);
-            // set the owning side to null (unless already changed)
-            if ($profile->getUser() === $this) {
-                $profile->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
 
     /**
      * @return Collection|User[]
@@ -110,8 +73,7 @@ class Profile
 
     public function removeUser(User $user): self
     {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
+        if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
             if ($user->getProfile() === $this) {
                 $user->setProfile(null);
@@ -120,4 +82,10 @@ class Profile
 
         return $this;
     }
+
+   
+
+  
+
+    
 }

@@ -49,18 +49,18 @@ class User implements UserInterface
      */
     private $isActive;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Profile", inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
-     * @Groups({"user:read", "user:write"})
-     */
-    private $profile;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Employe", mappedBy="idUser")
      * @Groups({"user:read", "user:write"})
      */
     private $employes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Profile::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $profile;
 
     public function __construct()
     {
@@ -95,7 +95,10 @@ class User implements UserInterface
 */
 public function getRoles(): array
 {
-return [strtoupper($this->profile->getLibelle())];
+
+    $roles[]= strtoupper($this->profile->getLibelle());
+
+return array_unique($roles);
 }
 
     /**
@@ -142,17 +145,6 @@ return [strtoupper($this->profile->getLibelle())];
         return $this;
     }
 
-    public function getProfile(): ?Profile
-    {
-        return $this->profile;
-    }
-
-    public function setProfile(?Profile $profile): self
-    {
-        $this->profile = $profile;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Employe[]
@@ -183,4 +175,18 @@ return [strtoupper($this->profile->getLibelle())];
 
         return $this;
     }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(?Profile $profile): self
+    {
+        $this->profile = $profile;
+
+        return $this;
+    }
+
+  
 }

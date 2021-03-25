@@ -27,15 +27,21 @@ class Fonction
     private $nomFonction;
 
     /**
-     * @ORM\OneToMany(targetEntity=Service::class, mappedBy="idFonction")
+     * @ORM\ManyToOne(targetEntity=Service::class, inversedBy="fonctions")
      */
-    private $services;
+    private $service;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Employe::class, mappedBy="fonction")
+     */
+    private $employes;
 
     public function __construct()
     {
-        $this->services = new ArrayCollection();
+        $this->employes = new ArrayCollection();
     }
 
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -53,33 +59,46 @@ class Fonction
         return $this;
     }
 
-    /**
-     * @return Collection|Service[]
-     */
-    public function getServices(): Collection
+    public function getService(): ?Service
     {
-        return $this->services;
+        return $this->service;
     }
 
-    public function addService(Service $service): self
+    public function setService(?Service $service): self
     {
-        if (!$this->services->contains($service)) {
-            $this->services[] = $service;
-            $service->setIdFonction($this);
+        $this->service = $service;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Employe[]
+     */
+    public function getEmployes(): Collection
+    {
+        return $this->employes;
+    }
+
+    public function addEmploye(Employe $employe): self
+    {
+        if (!$this->employes->contains($employe)) {
+            $this->employes[] = $employe;
+            $employe->setFonction($this);
         }
 
         return $this;
     }
 
-    public function removeService(Service $service): self
+    public function removeEmploye(Employe $employe): self
     {
-        if ($this->services->removeElement($service)) {
+        if ($this->employes->removeElement($employe)) {
             // set the owning side to null (unless already changed)
-            if ($service->getIdFonction() === $this) {
-                $service->setIdFonction(null);
+            if ($employe->getFonction() === $this) {
+                $employe->setFonction(null);
             }
         }
 
         return $this;
     }
+
 }
