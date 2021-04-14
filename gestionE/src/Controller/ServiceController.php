@@ -32,21 +32,8 @@ class ServiceController extends AbstractController
     public function AjouterService(Request $request, EntityManagerInterface $entityManager )
     {
        $value= json_decode($request->getContent());
-       if (isset($value->nomService, $value->nomFonction)) 
+       if (isset($value->nomService)) 
        {
-             
-      // //        # Fonction
-      //      $fonction= new Fonction();
-
-      //      $Reposfonction= $this->getDoctrine()->getRepository(Service::class);
-      //      $services= $Reposfonction->find($value->nomService);
-
-      //      $fonction->setNomFonction($value->nomFonction);
-      //      $fonction->setService($services);
-      //      $entityManager->persist($fonction);
-      //   //    dd($fonction);
-
-      
               # Service
            $service= new Service();
            $service->setNomService($value->nomService);

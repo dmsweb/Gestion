@@ -7,6 +7,7 @@ use App\Entity\Employe;
 use App\Entity\Profile;
 use App\Entity\Service;
 use App\Entity\Fonction;
+use App\Repository\EmployeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,7 +53,7 @@ class EmployerController extends AbstractController
             // dd($user);
             
                   
-            #La longueur total du matricule = 8 ex =MLA00001
+            #La longueur total du matricule = 8 ex =CSTP00001
 
             $kods = rand(1000, 9999);
             $num= "CSTP";
@@ -100,5 +101,60 @@ class EmployerController extends AbstractController
         ];
         return new JsonResponse($data, 500);
         
+    }
+
+
+              ### c'est l'affichage des employers 
+
+    /**
+    * @Route("/listeEmployes", name="liste", methods={"GET"})
+    */
+    public function listerEmploye(EmployeRepository $ripos )
+    {
+            $employe= new Employe();
+            $list= $ripos->findAll();
+
+            // dd($list);
+            $list= $this->getDoctrine()->getRepository(Employe::class);
+            $liste= $list->findAll();
+
+            $data= [];
+            $i=0;
+            $users= $this->tokenStorage->getToken()->getUser();
+            $profile= $users->getRoles()[0];
+
+            if ($profile === 'ROLE_ADMIN') 
+            {
+                foreach ($liste as $employe)
+                {
+                    if ($employe->getIdUser()->getProfile()->getLibelle() === 'ROLE_SECRETAIRE' ||
+                        $employe->getIdUser()->getProfile()->getLibelle() === 'ROLE_EMPLOYE')
+                        {
+                        $data[$i]=$employe;
+                        $i++;
+
+                    }
+                }
+            }
+            elseif($profile=== 'ROLE_SECRETAIRE')
+            {
+                foreach($liste as $employe)
+                {
+                    if ($employe->getIdUser()->getProfile()->getLibelle() === 'ROLE_EMPLOYE') 
+                    {
+                        $data[$i]=$employe;
+                        $i++;
+
+                    }
+                }
+            }
+            else {
+                $data = [
+                    'status' => 401,
+                    'message' => 'Désolé access non autorisé !!!'
+                    ];
+                
+            }
+            return $this->json($data, 200);
     }
 }

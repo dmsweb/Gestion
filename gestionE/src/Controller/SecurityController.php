@@ -101,55 +101,5 @@ class SecurityController extends AbstractController
             return $this->json($data, 200);
     }
 
-    /**
-    * @Route("/listeEmployes", name="liste", methods={"GET"})
-    */
-    public function listerEmploye(EmployeRepository $ripos )
-    {
-            $employe= new Employe();
-            $list= $ripos->findAll();
-
-            // dd($list);
-            $list= $this->getDoctrine()->getRepository(Employe::class);
-            $liste= $list->findAll();
-
-            $data= [];
-            $i=0;
-            $users= $this->tokenStorage->getToken()->getUser();
-            $profile= $users->getRoles()[0];
-
-            if ($profile === 'ROLE_ADMIN') 
-            {
-                foreach ($liste as $employe)
-                {
-                    if ($employe->getIdUser()->getProfile()->getLibelle() === 'ROLE_SECRETAIRE' ||
-                        $employe->getIdUser()->getProfile()->getLibelle() === 'ROLE_EMPLOYE')
-                        {
-                        $data[$i]=$employe;
-                        $i++;
-
-                    }
-                }
-            }
-            elseif($profile=== 'ROLE_SECRETAIRE')
-            {
-                foreach($liste as $employe)
-                {
-                    if ($employe->getIdUser()->getProfile()->getLibelle() === 'ROLE_EMPLOYE') 
-                    {
-                        $data[$i]=$employe;
-                        $i++;
-
-                    }
-                }
-            }
-            else {
-                $data = [
-                    'status' => 401,
-                    'message' => 'Désolé access non autorisé !!!'
-                    ];
-                
-            }
-            return $this->json($data, 200);
-    }
+    
 }
