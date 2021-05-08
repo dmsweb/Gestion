@@ -1,0 +1,18 @@
+<div class="container col-4 justify-content formulaire shadow p-3 mb-3 mt-3 rounded">
+    <p class="logo text-center">
+        
+    </p>
+    <p class="text-center h5 titre">GESTION CSTP: CONNEXION</p>
+    <form [formGroup]="loginForm" class="form">
+        <div *ngIf=isError class="alert alert-danger" role="alert">{{messageError}}</div>
+        <div class="form-group">
+            <input type="text" class="form-control rounded-pill" formControlName="username" placeholder="Username ou Email">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control rounded-pill" formControlName="password" placeholder="mot de passe">
+        </div>
+        <div class="form-group">
+            <button class="btn bg-primary rounded-pill btn-block"  style="color: white;" type="submit" (click)= "onSubmit()">Valider</button>
+        </div>
+    </form>
+</div>

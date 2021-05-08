@@ -1,0 +1,33 @@
+<br><br>
+<div class="container col-6 justify-content formulaire shadow p-3 mb-3 mt-3 rounded">
+    <div class="card-body">
+        <h5 class="card-title text-center">GESTION DES EMPLOYES CSTP</h5>
+        <div class="table-responsive">
+            <table id="zero_config" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Matri</th>
+                        <th>NOMS</th>
+                        <th>Adresse</th>
+                        <th>Téléphone</th>
+                        <th>Services</th>
+                        <th>Fonction</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let employe of employes">
+                        <td>{{employe.id}}</td>
+                        <td>{{employe.matricule}}</td>
+                        <td>{{employe.noms}}</td>
+                        <td>{{employe.adresse}}</td>
+                        <td>{{employe.telephone}}</td>
+                        <td>{{employe.service.nomService}}</td>
+                        <td>{{employe.fonction.nomFonction}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

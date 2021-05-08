@@ -1,0 +1,40 @@
+
+<div class="container col-8 justify-content formulaire shadow p-3 mb-3 mt-3 rounded">
+    <p class="logo text-center">
+        
+    </p>
+    <p class="text-center h5 titre">GESTION CSTP: Liste USERS</p>
+    <table class="table table-bordered">
+        <thead class="bg-primary">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">USERNAME</th>
+                <th scope="col">PROFILES</th>
+                <th scope="col">STATUS</th>
+                <th scope="col">ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">
+                <td>{{user.id}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.profile.libelle}}</td>
+                <td>
+                    <div *ngIf="user.isActive else elseBlock">
+                        <button class="btn btn-success" (click)="onStatus(user.id)">Activé</button>
+                    </div>
+                    <ng-template #elseblock>
+                        <button class="btn btn-danger" (click)="onStatus(user.id)">Desactivé</button>
+                    </ng-template>
+                </td>
+                <td>
+                    <button class="btn btn-danger" (click)="onDelete(user)">
+                        <span class="fa fa-trash-o"></span>
+
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
