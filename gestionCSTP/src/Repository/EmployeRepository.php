@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Employe;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Employe|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,9 +20,19 @@ class EmployeRepository extends ServiceEntityRepository
         parent::__construct($registry, Employe::class);
     }
 
-    // /**
-    //  * @return Employe[] Returns an array of Employe objects
-    //  */
+    /**
+     * @return Employe[] Returns an array of Employe objects
+     */
+      
+     public function listerEmploye($page, $limit)
+     {
+        $query = $this->createQueryBuilder('p')
+        ->getQuery()
+        ->setFirstResult(($page - 1) * $limit)
+        ->setMaxResults($limit);
+    return new Paginator($query);
+    }
+
     /*
     public function findByExampleField($value)
     {

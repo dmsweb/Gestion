@@ -125,9 +125,9 @@ class EmployerController extends AbstractController
                $page= 1;
                
             }
-            $limite=4;
+            $limite=5;
             $list= $this->getDoctrine()->getRepository(Employe::class);
-            $liste= $ripos->findAllEmploye($page, $limite);
+            $liste= $ripos->listerEmploye($page, $limite);
 
             $data= [];
             $i=0;
