@@ -1,5 +1,4 @@
-
-<div class="container col-8 justify-content formulaire shadow p-3 mb-3 mt-3 rounded">
+<div class="container col-5 justify-content formulaire shadow p-3 mb-3 mt-3 rounded">
     <p class="logo text-center">
         
     </p>
@@ -7,11 +6,11 @@
     <table class="table table-bordered">
         <thead class="bg-primary">
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">USERNAME</th>
-                <th scope="col">PROFILES</th>
-                <th scope="col">STATUS</th>
-                <th scope="col">ACTION</th>
+                <th>ID</th>
+                <th>USERNAME</th>
+                <th>PROFILES</th>
+                <th>STATUS</th>
+                <th>ACTION</th>
             </tr>
         </thead>
         <tbody>
@@ -30,11 +29,15 @@
                 <td>
                     <button class="btn btn-danger" (click)="onDelete(user)">
                         <span class="fa fa-trash-o"></span>
-
                     </button>
                 </td>
             </tr>
         </tbody>
-
     </table>
+    <nav aria-label="Page navigation example m-3">
+        <ul class="pagination justify-content-center">
+          <li class="page-item"><a class="page-link subtitle" type="button" (click)="loadPagePrec()" *ngIf="prec">Précédent</a></li>
+          <li class="page-item"><a class="page-link subtitle" type="button" (click)="loadPageNext()" *ngIf="suiv">Suivant</a></li>
+        </ul>
+    </nav>
 </div>

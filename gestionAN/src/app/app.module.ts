@@ -11,6 +11,7 @@ import { FormRegisterComponent } from './components/form-register/form-register.
 import { ReactiveFormsModule } from '@angular/forms';
 import { ListeUserComponent } from './components/liste-user/liste-user.component';
 import { ListeEmployesComponent } from './components/liste-employes/liste-employes.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ListeEmployesComponent } from './components/liste-employes/liste-employ
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

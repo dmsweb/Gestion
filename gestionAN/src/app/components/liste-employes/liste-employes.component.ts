@@ -14,9 +14,9 @@ export class ListeEmployesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.employerService.listeEmployer()
-    .pipe()
-    .subscribe(user =>{this.employes=user;
+    this.employerService.listeEmployer().pipe().subscribe(user =>{
+      this.employes=user;
+      console.log(user);
     })
   }
 

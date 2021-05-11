@@ -1,5 +1,6 @@
 import { UserService } from 'src/app/services/user.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator} from '@angular/material';
 
 
 @Component({
@@ -9,33 +10,46 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListeUserComponent implements OnInit {
 
-  users = null;
+  users: any;
+  pagination: any;
+  page: number=1;
+  prec = false;
+  suiv= true;
+  loading= true;
   
-
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  // @ViewChild(MatPaginator,null) paginator: MatPaginator;
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    
   ) { }
 
   ngOnInit() {
-    this.userService.getAll()
-    .pipe()
-    .subscribe(user =>{
-      this.users = user;
-      console.log(user);
-    } )
     
+  }
+  listerUser(page){
+    this.userService.listerUser(this.page).subscribe(data =>{
+      if(data["length"] == 0){
+        this.listerUser(this.page - 1);
+        this.loading = false;
+        // console.log(data["length"]);
+      }
+      else{
+        this.users = data;
+        this.loading= false;
+      }
+    },
+    error =>{
+      this.loading=false;
+    });
   }
   onStatus(id: number)
   {
-    this.userService.getStatus(id).subscribe(
-      data =>{
-        alert(JSON.stringify(data['message']));
-        this.userService.getAll().subscribe(
-          data =>{
-            this.users = data;
-            console.log(data);
-          }
-        )
+    this.loading = true;
+    this.userService.getStatus(id).subscribe(res =>{
+
+       alert(JSON.stringify(res['message']));
+       this.listerUser(this.page);
       }
     )
   }
@@ -43,9 +57,31 @@ export class ListeUserComponent implements OnInit {
       let v=confirm("Vous voullez supprimer ?")
       if(v===true)
     this.userService.deleteUser(id).subscribe(data=>{
+      this.users=data;
       
     })
     
+  }
+  loadPagePrec()
+  {
+    if(this.page > 1)
+    {
+      this.page = this.page - 1;
+      this.suiv = true;
+      this.listerUser(this.page);
+    }
+    else
+    {
+      this.page = 1;
+      this.prec = false;
+      this.suiv = true;
+    }
+  }
+  loadPageNext()
+  {
+    this.page ++;
+    this.listerUser(this.page);
+    this.prec = true;
   }
 
 }
