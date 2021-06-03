@@ -14,8 +14,15 @@ export class EmployerService {
   ajoutEmployer(employe: any){
     return this.Http.post<any>(`${environment.apiUrl}/api/Employer`, employe);
   }
+  loadPage(page){
+    return this.Http.get(`${environment.apiUrl}/api/listeEmployes?page=${page}`);
+  
+  }
 
-   listeEmployer(){
+   listeEmployer(page: number){
+     return this.Http.get(`${environment.apiUrl}/api/listeEmployes?page=${page}`);
+   }
+   getEmploye(){
      return this.Http.get(`${environment.apiUrl}/api/listeEmployes`);
    }
 }

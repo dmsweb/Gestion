@@ -1,33 +1,47 @@
-<br><br>
-<div class="container col-6 justify-content formulaire shadow p-3 mb-3 mt-3 rounded">
-    <div class="card-body">
-        <h5 class="card-title text-center">GESTION DES EMPLOYES CSTP</h5>
-        <div class="table-responsive">
-            <table id="zero_config" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Matri</th>
-                        <th>NOMS</th>
-                        <th>Adresse</th>
-                        <th>Téléphone</th>
-                        <th>Services</th>
-                        <th>Fonction</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let employe of employes">
-                        <td>{{employe.id}}</td>
-                        <td>{{employe.matricule}}</td>
-                        <td>{{employe.noms}}</td>
-                        <td>{{employe.adresse}}</td>
-                        <td>{{employe.telephone}}</td>
-                        <td>{{employe.service.nomService}}</td>
-                        <td>{{employe.fonction.nomFonction}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
 
-    </div>
-</div>
+
+<body>
+    <div class="row">
+        <!-- column -->
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Liste des employes</h4>
+                    <div class="table-responsive">
+                    <table class="table table-bordered no-wrap">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Matri</th>
+                                <th>NOMS</th>
+                                <th>Adresse</th>
+                                <th>Téléphone</th>
+                                <th>Services</th> 
+                                <th>Fonction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let employe of employes">
+                                <td>{{employe.id}}</td>
+                                <td>{{employe.matricule}}</td>
+                                <td>{{employe.noms}}</td>
+                                <td>{{employe.adresse}}</td>
+                                <td>{{employe.telephone}}</td>
+                                <td>{{employe.service.nomService}}</td>
+                                <td>{{employe.fonction.nomFonction}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation example m-3">
+                        <ul class="pagination justify-content-center">
+                        <li class="page-item"><a class="page-link subtitle" type="button" (click)="loadPagePrec()" *ngIf="prec">Précédent</a></li>
+                        <li class="page-item"><a class="page-link subtitle" type="button" (click)="loadPageNext()" *ngIf="suiv">Suivant</a></li>
+                        </ul>
+                            </nav>
+                </div>
+            </div>
+            </div>
+            </div>
+            </div>
+</body>
+

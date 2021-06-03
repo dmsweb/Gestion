@@ -18,7 +18,8 @@ export class FormLoginComponent implements OnInit {
 
   constructor(
      private authentifierService: AuthentifierService,
-     private router: Router
+     private router: Router,
+    
   ) { }
 
   ngOnInit() {
@@ -38,7 +39,7 @@ export class FormLoginComponent implements OnInit {
     this.authentifierService.login(this.loginForm.value.username, this.loginForm.value.password)
      .subscribe(res =>{
       this.loading= false;
-      this.router.navigate(['/register']);
+      this.router.navigate(['/Accueil']);
     },
     error => {
       console.log(error);

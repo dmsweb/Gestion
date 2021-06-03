@@ -1,0 +1,62 @@
+<div class="container col-8 justify-content formulaire shadow p-3 mb-3 mt-3 rounded">
+    <p class="logo text-center">
+        
+    </p>
+    <p class="text-center h5 titre">GESTION DES EMPLOYES CSTP</p>
+    <hr>
+<div class="card">
+    <h4 class="text-center h5 titre">Ajouter une Permission:</h4>
+    <hr>
+    <div class="card-body">
+        <form [formGroup] = "permissionForm" (ngSubmit)="onSubmit()">
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                  <label for="dateDu">Du Date</label>
+                  <input type="date" class="form-control rounded-pill btn-block text-center" placeholder="Du date" formControlName="dateDu">
+                  <small *ngIf="permissionForm.get('dateDu').invalid && permissionForm.get('dateDu').touched" class="text-danger">La Date est obligatoire</small>
+                </div>
+                <div class="col-lg-6">
+                  <label for="audate">Au Date Du </label>
+                  <input type="date" class="form-control rounded-pill btn-block text-center" placeholder="Au Date Du" formControlName="audate">
+                    <small *ngIf="permissionForm.get('audate').invalid && permissionForm.get('audate').touched" class="text-danger">La Date est obligatoire!</small>
+                
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                    <label for="motif">Motif de la Permission</label>
+                    <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="Motif de la Permission" formControlName="motif">
+                      <small *ngIf="permissionForm.get('motif').invalid && permissionForm.get('motif').touched" class="text-danger">L Motif est obligatoire!</small>
+                  
+                  </div>
+                  <div class="col-lg-6">
+                    <label for="status">Le Status</label>
+                    <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="Le Status" formControlName="status">
+                      <small *ngIf="permissionForm.get('status').invalid && permissionForm.get('status').touched" class="text-danger">Le Status est obligatoire!</small>
+                  
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                    <label for="employe">Employe</label>
+                     <select class="form-control rounded-pill btn-block text-center" formControlName="employe">
+                      <option value="">Choisir un Employe</option>
+                      <option *ngFor="let employe of employes " value="{{employe.id}}">{{employe.id}}</option>
+                     </select>
+                     
+                        <span *ngIf="permissionForm.get('employe').invalid && permissionForm.get('employe').touched" class="text-danger">Employe est Obligatoire !</span>
+                   
+                  </div><br>
+            
+            <div class="row mb-3">
+              <div class="col-lg-6">
+                 <button  class="btn bg-primary rounded-pill btn-block"  style="color: white;" type="submit" (click)= "onSubmit()">Valider</button>
+              </div>
+              <div class="col-lg-6">
+                <button class="btn bg-danger rounded-pill btn-block"  style="color: white;" type="reset" (click)= "onReset()">Effacer</button>
+             </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+

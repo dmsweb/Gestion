@@ -43,7 +43,9 @@ export class FormRegisterComponent implements OnInit {
       {
         alert(JSON.stringify(data));
         this.router.navigateByUrl('/listeUser');
+       
       })
   }
+    
 
 }

@@ -1,43 +1,67 @@
-<div class="container col-5 justify-content formulaire shadow p-3 mb-3 mt-3 rounded">
-    <p class="logo text-center">
-        
-    </p>
-    <p class="text-center h5 titre">GESTION CSTP: Liste USERS</p>
-    <table class="table table-bordered">
-        <thead class="bg-primary">
-            <tr>
-                <th>ID</th>
-                <th>USERNAME</th>
-                <th>PROFILES</th>
-                <th>STATUS</th>
-                <th>ACTION</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let user of users">
-                <td>{{user.id}}</td>
-                <td>{{user.username}}</td>
-                <td>{{user.profile.libelle}}</td>
-                <td>
-                    <div *ngIf="user.isActive else elseBlock">
-                        <button class="btn btn-success" (click)="onStatus(user.id)">Activé</button>
-                    </div>
-                    <ng-template #elseblock>
-                        <button class="btn btn-danger" (click)="onStatus(user.id)">Desactivé</button>
-                    </ng-template>
-                </td>
-                <td>
-                    <button class="btn btn-danger" (click)="onDelete(user)">
-                        <span class="fa fa-trash-o"></span>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <nav aria-label="Page navigation example m-3">
-        <ul class="pagination justify-content-center">
-          <li class="page-item"><a class="page-link subtitle" type="button" (click)="loadPagePrec()" *ngIf="prec">Précédent</a></li>
-          <li class="page-item"><a class="page-link subtitle" type="button" (click)="loadPageNext()" *ngIf="suiv">Suivant</a></li>
+<body>
+    <div class="row">
+        <ul class="navbar-nav me-auto mt-md-0 ">
+            <!-- ============================================================== -->
+            <!-- Search -->
+            <!-- ============================================================== -->
+
+            <li class="nav-item hidden-sm-down">
+                <form class="app-search ps-3">
+                    <input type="text" class="form-control" name="username" [(ngModel)]="username" (ngModelChange)="Search()" placeholder="Recherche..."> <a
+                        class="srh-btn"><i class="ti-search"></i></a>
+                </form>
+            </li>
         </ul>
-    </nav>
-</div>
+        <!-- column -->
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Liste des Utilisateurs</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered no-wrap">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>USERNAME</th>
+                                    <th>PROFILES</th>
+                                    <th>STATUS</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let user of users">
+                                    <td>{{user.id}}</td>
+                                    <td>{{user.username}}</td>
+                                    <td>{{user.profile.libelle}}</td>
+                                    <td>
+                                        <div *ngIf="user.isActive else elseBlock">
+                                            <button class="btn btn-success" (click)="onStatus(user.id)">Activé</button>
+                                        </div>
+                                        <ng-template #elseblock>
+                                            <button class="btn btn-danger" (click)="onStatus(user.id)">desactivé</button>
+                                        </ng-template>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" type="button" (click)="onDelete(user.id)">
+                                            <mat-icon matSuffix>delete</mat-icon>
+                                        </button>
+                                        <button class="btn btn-primary" type="button">
+                                            <mat-icon matSuffix>edit</mat-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                            <nav aria-label="Page navigation example m-3">
+                                <ul class="pagination justify-content-left">
+                                <li class="page-item"><a class="page-link subtitle" type="button" (click)="loadPagePrec()" *ngIf="prec">Précédent</a></li>
+                                <li class="page-item"><a class="page-link subtitle" type="button" (click)="loadPageNext()" *ngIf="suiv">Suivant</a></li>
+                                </ul>
+                            </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

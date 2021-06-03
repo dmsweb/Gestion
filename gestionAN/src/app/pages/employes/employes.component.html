@@ -1,0 +1,109 @@
+<div class="container col-8 justify-content formulaire shadow p-3 mb-3 mt-3 rounded">
+    <p class="logo text-center">
+        
+    </p>
+    <p class="text-center h5 titre">GESTION DES EMPLOYES CSTP</p>
+    <hr>
+<div class="card">
+    <h4 class="text-center h5 titre">Ajouter un Employe</h4>
+    <hr>
+    <div class="card-body">
+        <form [formGroup] = "employeForm" (ngSubmit)="onSubmit()">
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                  <label for="username">Utilisateur</label>
+                  <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="username" formControlName="username">
+                  <small *ngIf="employeForm.get('username').invalid && employeForm.get('username').touched" class="text-danger">username est obligatoire</small>
+                </div>
+                <div class="col-lg-6">
+                  <label for="password">Mot de Passe</label>
+                  <input type="password" class="form-control rounded-pill btn-block text-center" placeholder="password" formControlName="password">
+                    <small *ngIf="employeForm.get('password').invalid && employeForm.get('password').touched" class="text-danger">password est obligatoire !</small>
+                    <small *ngIf="employeForm.get('password').invalid && employeForm.get('password').touched" class="text-danger">password doit être au moins 6 caractéres</small>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                  <label for="profile">Profile</label>
+                   <select class="form-control rounded-pill btn-block text-center" formControlName="profile">
+                    <option value="">Choisir un Profile</option>
+                    <option *ngFor="let profile of roles" value="{{profile.id}}">{{profile.libelle}}</option>
+                   </select>
+                   <span *ngIf="employeForm.get('profile').invalid && employeForm.get('profile').touched" class="text-danger">Le Profile est Obligatoire !</span>
+               
+                </div>
+                <div class="col-lg-6">
+                    <label for="service">Services</label>
+                     <select class="form-control rounded-pill btn-block text-center" formControlName="service">
+                      <option value="">Choisir un Service</option>
+                      <option *ngFor="let service of services" value="{{service.id}}">{{service.nomService}}</option>
+                     </select>
+                     
+                        <span *ngIf="employeForm.get('service').invalid && employeForm.get('service').touched" class="text-danger">Service est Obligatoire !</span>
+                   
+                  </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                  <label for="noms">Prénom et Nom</label>
+                  <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="nom complet" formControlName="noms">
+                 <span *ngIf="employeForm.get('noms').invalid && employeForm.get('noms').touched" class="text-danger">Remplir votre Nom</span>
+                </div>
+                <div class="col-lg-6">
+                  <label for="naissance">Date de Naissance</label>
+                  <input type="date" class="form-control rounded-pill btn-block text-center" placeholder="date naissance" formControlName="naissance">
+                  <span *ngIf="employeForm.get('naissance').invalid && employeForm.get('naissance').touched" class="text-danger">Remplir votre Date Naissance</span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                  <label for="adresse">Adresse</label>
+                  <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="Adresse" formControlName="adresse">
+                  <span *ngIf="employeForm.get('adresse').invalid && employeForm.get('adresse').touched" class="text-danger">Remplir votre Adresse</span>
+                </div>
+                <div class="col-lg-6">
+                  <label for="telephone">Numéro de Téléphone</label>
+                  <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="telephone" formControlName="telephone">
+                  <span *ngIf="employeForm.get('telephone').invalid && employeForm.get('telephone').touched" class="text-danger">Le Numéro est Obligatoire</span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                  <label for="cin">Numéro Carte D'identité</label>
+                  <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="Numéro" formControlName="cin">
+                  <span *ngIf="employeForm.get('cin').invalid && employeForm.get('cin').touched" class="text-danger">Numéro Carte D'identité est Obligatoire</span>
+                </div>
+                <div class="col-lg-6">
+                  <label for="sfamiliale">Situation Matrimoniale</label>
+                  <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="Célibatiare ou Marié" formControlName="sfamiliale">
+                  <span *ngIf="employeForm.get('sfamiliale').invalid && employeForm.get('sfamiliale').touched" class="text-danger">Remplir le Champ</span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                  <label for="genre">Sexe</label>
+                   <select class="form-control rounded-pill btn-block text-center" formControlName="genre">
+                    <option value="">Faire le Choix</option>
+                    <option value="Homme">Homme</option>
+                    <option value="Femme">Femme</option>
+                   </select>
+                   <span *ngIf="employeForm.get('genre').invalid && employeForm.get('genre').touched" class="text-danger">Remplir le Champ</span>
+                </div>
+                <div class="col-lg-6">
+                    <label for="nomFonction">Fonction</label>
+                    <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="fonction" formControlName="nomFonction">
+                    <span *ngIf="employeForm.get('nomFonction').invalid && employeForm.get('nomFonction').touched" class="text-danger">Remplir votre Fonction</span>
+                  </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-lg-6">
+                 <button  class="btn bg-primary rounded-pill btn-block"  style="color: white;" type="submit" (click)= "onSubmit()">Valider</button>
+              </div>
+              <div class="col-lg-6">
+                <button class="btn bg-danger rounded-pill btn-block"  style="color: white;" type="reset" (click)= "onReset()">Effacer</button>
+             </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
