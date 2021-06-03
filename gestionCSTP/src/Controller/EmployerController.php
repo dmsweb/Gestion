@@ -35,7 +35,7 @@ class EmployerController extends AbstractController
     public function AjouterEmployer(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $userPasswordEncoder)
     {
         $value= json_decode($request->getContent());
-        if (isset($value->noms,$value->naissance,$value->adresse,$value->telephone,$value->cin,$value->genre,$value->sfamiliale,$value->idService,$value->username,$value->password,$value->profile,$value->nomFonction))
+        if (isset($value->noms,$value->naissance,$value->adresse,$value->telephone,$value->cin,$value->genre,$value->sfamiliale,$value->service,$value->username,$value->password,$value->profile,$value->nomFonction))
          {
             $daterecrut= new \DateTime();
             $dateEmb=    new  \DateTime();
@@ -66,7 +66,7 @@ class EmployerController extends AbstractController
              $fonction= new Fonction();
 
             $reposService=$this->getDoctrine()->getRepository(Service::class);
-            $service= $reposService->find($value->idService);
+            $service= $reposService->find($value->service);
 
 
              $fonction->setNomFonction($value->nomFonction);
@@ -110,6 +110,27 @@ class EmployerController extends AbstractController
         
     }
 
+    /**
+    * @Route("/users/{id}", name="listes", methods={"DELETE"})
+    */
+    public function deleteUser($id)
+    {
+        $data = [
+            'status' => 201,
+            'message' => 'Utilisateur supprime  !!!'
+            ];
+
+        $delete= $this->getDoctrine()->getRepository(User::class)->findOneById($id);
+       
+        if ($delete) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($delete);
+            $em->flush();
+        }
+
+        return $this->json($data, 200);
+    }
+
 
               ### c'est l'affichage des employers 
 
@@ -138,8 +159,8 @@ class EmployerController extends AbstractController
             {
                 foreach ($liste as $employe)
                 {
-                    if ($employe->getIdUser()->getProfile()->getLibelle() === 'ROLE_SECRETAIRE' ||
-                        $employe->getIdUser()->getProfile()->getLibelle() === 'ROLE_EMPLOYE')
+                    if ($employe->getUser()->getProfile()->getLibelle() === 'ROLE_SECRETAIRE' ||
+                        $employe->getUser()->getProfile()->getLibelle() === 'ROLE_EMPLOYE')
                         {
                         $data[$i]=$employe;
                         $i++;
@@ -151,7 +172,7 @@ class EmployerController extends AbstractController
             {
                 foreach($liste as $employe)
                 {
-                    if ($employe->getIdUser()->getProfile()->getLibelle() === 'ROLE_EMPLOYE') 
+                    if ($employe->getUser()->getProfile()->getLibelle() === 'ROLE_EMPLOYE') 
                     {
                         $data[$i]=$employe;
                         $i++;

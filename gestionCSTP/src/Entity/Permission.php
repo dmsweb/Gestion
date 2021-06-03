@@ -19,12 +19,12 @@ class Permission
     private $id;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="string", length=255)
      */
     private $dateDu;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="string", length=255)
      */
     private $audate;
 
@@ -48,24 +48,24 @@ class Permission
         return $this->id;
     }
 
-    public function getDateDu(): ?\DateTimeInterface
+    public function getDateDu(): ?string
     {
         return $this->dateDu;
     }
 
-    public function setDateDu(\DateTimeInterface $dateDu): self
+    public function setDateDu(string $dateDu): self
     {
         $this->dateDu = $dateDu;
 
         return $this;
     }
 
-    public function getAudate(): ?\DateTimeInterface
+    public function getAudate(): ?string
     {
         return $this->audate;
     }
 
-    public function setAudate(\DateTimeInterface $audate): self
+    public function setAudate(string $audate): self
     {
         $this->audate = $audate;
 

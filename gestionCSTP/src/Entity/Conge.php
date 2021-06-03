@@ -27,13 +27,13 @@ class Conge
     private $dateDebut;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="string")
      * @Groups({"read","write"})
      */
     private $dateFin;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="string")
      * @Groups({"read","write"})
      */
     private $dateReprise;
@@ -72,24 +72,24 @@ class Conge
         return $this;
     }
 
-    public function getDateFin(): ?\DateTimeInterface
+    public function getDateFin(): ?string
     {
         return $this->dateFin;
     }
 
-    public function setDateFin(\DateTimeInterface $dateFin): self
+    public function setDateFin(string $dateFin): self
     {
         $this->dateFin = $dateFin;
 
         return $this;
     }
 
-    public function getDateReprise(): ?\DateTimeInterface
+    public function getDateReprise(): ?string
     {
         return $this->dateReprise;
     }
 
-    public function setDateReprise(\DateTimeInterface $dateReprise): self
+    public function setDateReprise(string $dateReprise): self
     {
         $this->dateReprise = $dateReprise;
 

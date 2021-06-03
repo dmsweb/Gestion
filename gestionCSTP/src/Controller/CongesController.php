@@ -32,22 +32,20 @@ class CongesController extends AbstractController
     public function NouveauConge(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $userPasswordEncoder)
     {
         $values= json_decode($request->getContent());
-         if (isset($values->nature,$values->nbrejours,$values->employe)) 
+         if (isset($values->typeConge,$values->nbrejours,$values->employe,$values->dateFin,$values->dateReprise)) 
          {
             $nouveauConge= new Conge();
             $dateDebut=    new \DateTime;
-            $dateFin=      new \DateTime;
-            $dateReprise=  new \DateTime;
 
             $RepoEmploye= $this->getDoctrine()->getRepository(Employe::class);
             $employe= $RepoEmploye->find($values->employe);
-            // dd($employe);
+          
 
             $nouveauConge->setDateDebut($dateDebut);
-            $nouveauConge->setDateFin($dateFin);
-            $nouveauConge->setDateReprise($dateReprise);
-            $nouveauConge->setTypeConge($values->nature);
-            $nouveauConge->setNbrJours($values->nbrejours);
+            $nouveauConge->setDateFin($values->dateFin);
+            $nouveauConge->setDateReprise($values->dateReprise);
+            $nouveauConge->setTypeConge($values->typeConge);
+            $nouveauConge->setNbreJours($values->nbrejours);
             $nouveauConge->setEmploye($employe);
 
             $entityManager->persist($nouveauConge);
@@ -74,21 +72,19 @@ class CongesController extends AbstractController
     public function NouvellePermissions(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $userPasswordEncoder)
     {
         $value= json_decode($request->getContent());
-         if (isset($value->status,$value->motif,$value->employe)) 
+         if (isset($value->status,$value->motif,$value->employe,$value->dateDu,$value->audate)) 
          {
             $nouvellePermission= new Permission();
-            $dateDu=    new \DateTime;
-            $audate=      new \DateTime;
             
             $RepoEmployes= $this->getDoctrine()->getRepository(Employe::class);
             $employes= $RepoEmployes->find($value->employe);
             // dd($employe);
 
-            $nouvellePermission->setDateDu($dateDu);
-            $nouvellePermission->setAudate($audate);
+            $nouvellePermission->setDateDu($value->dateDu);
+            $nouvellePermission->setAudate($value->audate);
             $nouvellePermission->setMotif($value->motif);
             $nouvellePermission->setStatus($value->status);
-            $nouvellePermission->setEmployers($employes);
+            $nouvellePermission->setEmploye($employes);
 
             $entityManager->persist($nouvellePermission);
             $entityManager->flush();
