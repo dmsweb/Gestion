@@ -40,7 +40,7 @@
                     <label for="employe">Employe</label>
                      <select class="form-control rounded-pill btn-block text-center" formControlName="employe">
                       <option value="">Choisir un Employe</option>
-                      <option *ngFor="let employe of employes " value="{{employe.id}}">{{employe.id}}</option>
+                      <option *ngFor="let employe of employes " value="{{employe.id}}">{{employe.noms}}</option>
                      </select>
                      
                         <span *ngIf="permissionForm.get('employe').invalid && permissionForm.get('employe').touched" class="text-danger">Employe est Obligatoire !</span>

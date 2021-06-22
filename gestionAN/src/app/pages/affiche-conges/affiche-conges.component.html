@@ -37,31 +37,30 @@
             <div class="card">
                 <div class="card-body">
                     <div class="container">
-                    <h4 class="card-title">Liste des employes</h4>
+                    <h4 class="card-title">Liste des Conges</h4>
                     <div class="table-responsive-sm">
                         <table class="table table-bordered">
                         <thead class="text-center">
                             <tr>
                                 <th>ID</th>
-                                <th>Matri</th>
-                                <th>NOMS</th>
-                                <th>Adresse</th>
-                                <th>Téléphone</th>
-                                <th>Sexe</th>
-                                <th>Services</th> 
-                                <th>Fonction</th>
+                                <th>DATE DEBUT</th>
+                                <th>DATE FIN</th>
+                                <th>DATE REPRISE</th>
+                                <th>NATURE</th>
+                                <th>NBRE JOURS</th>
+                                <th>EMPLOYES</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let employe of employes">
-                                <td>{{employe.id}}</td>
-                                <td>{{employe.matricule}}</td>
-                                <td>{{employe.noms}}</td>
-                                <td>{{employe.adresse}}</td>
-                                <td>{{employe.telephone}}</td>
-                                <td>{{employe.genre}}</td>
-                                <td>{{employe.service.nomService}}</td>
-                                <td>{{employe.fonction.nomFonction}}</td>
+                            <tr *ngFor="let conge of conges">
+                                <td>{{conge.id}}</td>
+                                <td>{{conge.dateDebut}}</td>
+                                <td>{{conge.dateFin}}</td>
+                                <td>{{conge.dateReprise}}</td>
+                                <td>{{conge.typeConge}}</td>
+                                <td>{{conge.nbrejours}}</td>
+                                <td>{{conge.employe.noms}}</td>
+                              
                                 <!-- <td>
                                     <button class="btn btn-danger" type="button" (click)="onDelete(user.id)">
                                         <mat-icon matSuffix>delete</mat-icon>
@@ -70,12 +69,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    <nav aria-label="Page navigation example m-3">
-                        <ul class="pagination justify-content-center">
-                        <li class="page-item"><a class="page-link subtitle" type="button" (click)="loadPagePrec()" *ngIf="prec">Précédent</a></li>
-                        <li class="page-item"><a class="page-link subtitle" type="button" (click)="loadPageNext()" *ngIf="suiv">Suivant</a></li>
-                        </ul>
-                            </nav>
                 </div>
                 </div>
             </div>

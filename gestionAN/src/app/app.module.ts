@@ -17,6 +17,8 @@ import { MatCardModule, MatFormFieldModule, MatIconModule, MatTabsModule } from 
 import { EmployesComponent } from './pages/employes/employes.component';
 import { CongesComponent } from './pages/conges/conges.component';
 import { PermissionsComponent } from './pages/permissions/permissions.component';
+import { UpdateUserComponent } from './pages/update-user/update-user.component';
+import { AfficheCongesComponent } from './pages/affiche-conges/affiche-conges.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { PermissionsComponent } from './pages/permissions/permissions.component'
     DashboardComponent,
     EmployesComponent,
     CongesComponent,
-    PermissionsComponent
+    PermissionsComponent,
+    UpdateUserComponent,
+    AfficheCongesComponent
     
   ],
   imports: [

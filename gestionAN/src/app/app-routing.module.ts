@@ -1,3 +1,4 @@
+import { AfficheCongesComponent } from './pages/affiche-conges/affiche-conges.component';
 import { EmployesComponent } from './pages/employes/employes.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ListeUserComponent } from './components/liste-user/liste-user.component';
@@ -8,6 +9,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ListeEmployesComponent } from './components/liste-employes/liste-employes.component';
 import { CongesComponent } from './pages/conges/conges.component';
 import { PermissionsComponent } from './pages/permissions/permissions.component';
+import { UpdateUserComponent } from './pages/update-user/update-user.component';
 
 const routes: Routes = [
   {
@@ -27,13 +29,19 @@ const routes: Routes = [
         {path: 'listeUser', component: ListeUserComponent},
         {path: 'AjouterEmploye', component: EmployesComponent},
         {path: 'NouveauConge', component: CongesComponent},
-        {path: 'Permissions', component: PermissionsComponent}
+        {path: 'Permissions', component: PermissionsComponent},
+        {path: 'ModifierUser/:id', component: UpdateUserComponent},
+        {path: 'listeEmployes', component: ListeEmployesComponent},
+        {path: 'listeConges', component: AfficheCongesComponent}
       ]
 
   },
   {
     path: 'register',
     component: FormRegisterComponent
+  },
+  {
+    path: 'ModifierUser/:id', component: UpdateUserComponent
   },
   {
     path: 'listeUser',

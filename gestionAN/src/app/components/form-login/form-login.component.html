@@ -6,7 +6,9 @@
                 <mat-card-content>
                     <p class="text-center h5 titre" style="color: white;">GESTION CSTP: CONNEXION</p>
                         <form [formGroup]="loginForm" class="form">
-                            <div *ngIf=isError class="alert alert-danger" role="alert">{{messageError}}</div>
+                            <div *ngIf=" erreur==1" class="alert alert-danger" role="alert">
+                                <strong>Username ou Mot de Passe incorrrecte !</strong>
+                            </div>
                             <div class="input-container">
                                 <i class="fa fa-user icon"></i>
                                 <input class="input-field form-control " type="text" formControlName="username" placeholder="Username ou Email">
@@ -20,10 +22,7 @@
                             </div>
                         </form>
                 </mat-card-content>
-               
             </mat-tab>
         </mat-tab-group>
-       
-
     </mat-card>
 </div>

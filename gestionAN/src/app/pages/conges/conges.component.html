@@ -10,41 +10,47 @@
     <div class="card-body">
         <form [formGroup] = "congesForm" (ngSubmit)="onSubmit()">
             <div class="row mb-3">
-                <div class="col-lg-6">
+              <div class="col-lg-6">
+                  <label for="dateFin">Date Debut</label>
+                  <input type="date" class="form-control rounded-pill btn-block text-center" placeholder="Date Debut" formControlName="dateDebut">
+                  <small *ngIf="congesForm.get('dateDebut').invalid && congesForm.get('dateDebut').touched" class="text-danger">La Date est obligatoire</small>
+              </div> 
+              <div class="col-lg-6">
                   <label for="dateFin">Date Fin</label>
                   <input type="date" class="form-control rounded-pill btn-block text-center" placeholder="username" formControlName="dateFin">
                   <small *ngIf="congesForm.get('dateFin').invalid && congesForm.get('dateFin').touched" class="text-danger">La Date est obligatoire</small>
                 </div>
-                <div class="col-lg-6">
+            </div>
+            <div class="row mb-3">
+              <div class="col-lg-6">
                   <label for="dateReprise">Date Reprise</label>
                   <input type="date" class="form-control rounded-pill btn-block text-center" placeholder="password" formControlName="dateReprise">
                     <small *ngIf="congesForm.get('dateReprise').invalid && congesForm.get('dateReprise').touched" class="text-danger">La Date est obligatoire!</small>
                 
                 </div>
-            </div>
-            <div class="row mb-3">
                 <div class="col-lg-6">
                     <label for="typeConge">Nature Conges</label>
                     <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="Nature Conges" formControlName="typeConge">
                       <small *ngIf="congesForm.get('typeConge').invalid && congesForm.get('typeConge').touched" class="text-danger">La Nature est obligatoire!</small>
-                  
                   </div>
-                  <div class="col-lg-6">
+                </div>
+                <div class="row mb-3">
+                <div class="col-lg-6">
                     <label for="nbrejours">Le Nombre de Jour</label>
                     <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="Le Nombre de Jour" formControlName="nbrejours">
                       <small *ngIf="congesForm.get('nbrejours').invalid && congesForm.get('nbrejours').touched" class="text-danger">Le Nombre de Jour est obligatoire!</small>
                   
-                  </div>
-                </div>
-                <div class="col-lg-12">
+                  </div>  
+                <div class="col-lg-6">
                     <label for="employe">Employe</label>
                      <select class="form-control rounded-pill btn-block text-center" formControlName="employe">
                       <option value="">Choisir un Employe</option>
-                      <option *ngFor="let employe of employes " value="{{employe.id}}">{{employe.id}}</option>
+                      <option *ngFor="let employe of employes " value="{{employe.id}}">{{employe.noms}}</option>
                      </select>
                      
                         <span *ngIf="congesForm.get('employe').invalid && congesForm.get('employe').touched" class="text-danger">Employe est Obligatoire !</span>
                    
+                  </div>
                   </div><br>
             
             <div class="row mb-3">
@@ -59,3 +65,8 @@
     </div>
 </div>
 </div>
+
+
+
+
+               

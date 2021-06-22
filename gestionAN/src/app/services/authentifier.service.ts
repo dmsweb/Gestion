@@ -24,7 +24,7 @@ export class AuthentifierService {
   {
     console.log(environment.apiUrl);
 
-    return this.Http.post<User>(`${environment.apiUrl}/api/login_check`, {username, password}).pipe(
+    return this.Http.post<User>(`${environment.apiUrl}/api/login_check`, {username, password,}).pipe(
       map(user => {
        localStorage.setItem('currentUser', JSON.stringify(user));
        this.currentUserSubject.next(user);

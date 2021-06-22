@@ -12,6 +12,8 @@ export class PermissionsComponent implements OnInit {
 
   permissionForm: FormGroup;
   employes:any;
+  loading= true;
+  message: string;
 
   constructor(
             private employeService: EmployerService,
@@ -34,6 +36,7 @@ export class PermissionsComponent implements OnInit {
   get f(){return this.permissionForm.controls;}
 
   onSubmit(){
+    this.loading=true;
     if (this.permissionForm.invalid) {
       return;
     }
@@ -47,8 +50,9 @@ export class PermissionsComponent implements OnInit {
     console.log(permissions);
     this.permissionsService.nouveauPermission(permissions).subscribe(data =>
       {
-        alert('SUCCESS!! :-)\n\n' + JSON.stringify(data));
-      })
+       alert(JSON.stringify(data["message"]));
+      }, 
+      error => console.log(error));
   }
   onReset(){
     this.permissionForm.reset();

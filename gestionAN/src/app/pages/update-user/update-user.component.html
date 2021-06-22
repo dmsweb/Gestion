@@ -5,25 +5,22 @@
     <p class="text-center h5 titre">GESTION DES EMPLOYES CSTP</p>
     <hr>
 <div class="card">
-    <h4 class="text-center h5 titre">Ajouter un Utilisateur</h4>
+    <h4 class="text-center h5 titre">Modifier un Utilisateur</h4>
     <span>{{message}}</span>
     <hr>
     <div class="card-body">
-        <form [formGroup] = "registerForm" (ngSubmit)="onSubmit()">
+        <form (ngSubmit)="onSubmit()">
             <div class="row mb-3">
                 <div class="col-lg-6">
                   <label for="username">Utilisateur</label>
-                  <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="username" formControlName="username">
+                  <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="username"  name="username" [(ngModel)]="usee.username">
                 </div>
-                <div class="col-lg-6">
-                  <label for="password">Mot de Passe</label>
-                  <input type="password" class="form-control rounded-pill btn-block text-center" placeholder="password" formControlName="password">
-                </div>
+                
             </div>
             <div class="row mb-3">
                 <div class="col-lg-12">
                   <label for="profile">Profile</label>
-                   <select class="form-control rounded-pill btn-block text-center" formControlName="profile">
+                   <select class="form-control rounded-pill btn-block text-center" name="profile" [(ngModel)]="usee.profile">
                     <option value="">Choisir un Profile</option>
                     <option *ngFor="let profile of profiles" value="{{profile.id}}">{{profile.libelle}}</option>
                    </select>
@@ -31,12 +28,9 @@
             </div>
             <div class="row mb-3">
               <div class="col-lg-6">
-                 <button class="btn bg-primary rounded-pill btn-block"  style="color: white;" type="submit" (click)= "onSubmit()">Valider</button>
+                 <button class="btn btn-success rounded-pill btn-block"  style="color: white;" type="submit" (click)= "onSubmit()">Modifier</button>
               </div>
-              <div class="col-lg-6">
-                <button class="btn bg-danger rounded-pill btn-block"  style="color: white;" type="reset" >Effacer</button>
-               
-             </div>
+             
             </div>
            
         </form>

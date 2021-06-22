@@ -15,6 +15,7 @@ export class FormLoginComponent implements OnInit {
   returnUrl: string;
   isError = false;
   messageError: string;
+  erreur = 0;
 
   constructor(
      private authentifierService: AuthentifierService,
@@ -43,12 +44,13 @@ export class FormLoginComponent implements OnInit {
     },
     error => {
       console.log(error);
-      this.isError =true;
-      if (error["message"]) {
-        this.messageError= error["message"];
+     
+      if ([this.erreur]) {
+        this.erreur=1;
+       
         
       }else {
-        this.messageError = error;
+        this.erreur = error;
       }
     }
 

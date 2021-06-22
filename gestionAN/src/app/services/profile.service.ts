@@ -15,4 +15,7 @@ export class ProfileService {
     return this.Http.get(`${environment.apiUrl}/api/profiles`);
    
   }
+  getProfiles(){
+    return this.Http.get(`${environment.apiUrl}/api/profile`);
+  }
 }

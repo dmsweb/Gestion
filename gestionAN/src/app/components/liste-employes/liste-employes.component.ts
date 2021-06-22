@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/services/user.service';
 import { MatPaginator } from '@angular/material';
 import { EmployerService } from 'src/app/services/employer.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -15,14 +16,20 @@ export class ListeEmployesComponent implements OnInit {
   prec = false;
   suiv= true;
   loading= true;
+  user=true;
+  datas:any
   
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   // @ViewChild(MatPaginator,null) paginator: MatPaginator;
   constructor(
-    private employerService: EmployerService
+    private employerService: EmployerService,
+    private userService: UserService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit():void {
+    this.user=true;
+    this.refresh();
+  }
 
   listeEmployer(page){
     this.employerService.listeEmployer(this.page).subscribe(data =>{
@@ -62,4 +69,21 @@ export class ListeEmployesComponent implements OnInit {
     this.prec = true;
   }
 
+  onDelete(id: number){
+    if (this.user) {
+      return;
+    }
+    this.user =true;
+    this.employerService.deleteEmploye(id).subscribe(() => {
+      this.refresh();
+    });
+    
+  }
+  private refresh(){
+    this.userService.listerUser(this.page).subscribe(datas => {
+      this.datas= datas;
+      this.user= false;
+
+    })
+  }
 }

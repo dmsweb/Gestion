@@ -3,7 +3,7 @@ export class User {
     username: string;
     password: string;
     isActive: boolean;
-    profile?: string;
+    profile:  string;
     token?:   string;
-    roles?:   string;
+    roles?:    string[];
 }

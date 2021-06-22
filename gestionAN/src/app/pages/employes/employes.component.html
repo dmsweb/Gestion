@@ -9,36 +9,17 @@
     <hr>
     <div class="card-body">
         <form [formGroup] = "employeForm" (ngSubmit)="onSubmit()">
+            
             <div class="row mb-3">
                 <div class="col-lg-6">
-                  <label for="username">Utilisateur</label>
-                  <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="username" formControlName="username">
-                  <small *ngIf="employeForm.get('username').invalid && employeForm.get('username').touched" class="text-danger">username est obligatoire</small>
-                </div>
-                <div class="col-lg-6">
-                  <label for="password">Mot de Passe</label>
-                  <input type="password" class="form-control rounded-pill btn-block text-center" placeholder="password" formControlName="password">
-                    <small *ngIf="employeForm.get('password').invalid && employeForm.get('password').touched" class="text-danger">password est obligatoire !</small>
-                    <small *ngIf="employeForm.get('password').invalid && employeForm.get('password').touched" class="text-danger">password doit être au moins 6 caractéres</small>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                  <label for="profile">Profile</label>
-                   <select class="form-control rounded-pill btn-block text-center" formControlName="profile">
-                    <option value="">Choisir un Profile</option>
-                    <option *ngFor="let profile of roles" value="{{profile.id}}">{{profile.libelle}}</option>
-                   </select>
-                   <span *ngIf="employeForm.get('profile').invalid && employeForm.get('profile').touched" class="text-danger">Le Profile est Obligatoire !</span>
+                  <label for="user">Id User</label>
+                    <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="Id User" formControlName="user">
+                   <span *ngIf="employeForm.get('user').invalid && employeForm.get('user').touched" class="text-danger">Le User est Obligatoire !</span>
                
                 </div>
                 <div class="col-lg-6">
                     <label for="service">Services</label>
-                     <select class="form-control rounded-pill btn-block text-center" formControlName="service">
-                      <option value="">Choisir un Service</option>
-                      <option *ngFor="let service of services" value="{{service.id}}">{{service.nomService}}</option>
-                     </select>
-                     
+                     <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="Id Service" formControlName="service">
                         <span *ngIf="employeForm.get('service').invalid && employeForm.get('service').touched" class="text-danger">Service est Obligatoire !</span>
                    
                   </div>
@@ -74,7 +55,7 @@
                   <span *ngIf="employeForm.get('cin').invalid && employeForm.get('cin').touched" class="text-danger">Numéro Carte D'identité est Obligatoire</span>
                 </div>
                 <div class="col-lg-6">
-                  <label for="sfamiliale">Situation Matrimoniale</label>
+                  <label for="sfamiliale">Situation Familliale</label>
                   <input type="text" class="form-control rounded-pill btn-block text-center" placeholder="Célibatiare ou Marié" formControlName="sfamiliale">
                   <span *ngIf="employeForm.get('sfamiliale').invalid && employeForm.get('sfamiliale').touched" class="text-danger">Remplir le Champ</span>
                 </div>

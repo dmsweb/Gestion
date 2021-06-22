@@ -13,4 +13,7 @@ export class CongesService {
   nouveauConge(conge: any){
     return this.Http.post<any>(`${environment.apiUrl}/api/conges`, conge);
   }
+  getAllConges(){
+    return this.Http.get(`${environment.apiUrl}/api/conges`);
+  }
 }

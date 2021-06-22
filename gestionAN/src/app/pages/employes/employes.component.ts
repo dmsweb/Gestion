@@ -4,6 +4,7 @@ import { ProfileService } from './../../services/profile.service';
 import { EmployerService } from './../../services/employer.service';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-employes',
@@ -12,13 +13,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmployesComponent implements OnInit {
   employeForm: FormGroup;
-  roles: any;
+  users: any;
   services: any;
+  loading=true;
+  message:string;
  
   constructor(
 
     private employerService: EmployerService,
-    private profileService:  ProfileService,
+    private userService: UserService,
     private servicesService: ServiceService,
     private router: Router
   ) { }
@@ -26,9 +29,8 @@ export class EmployesComponent implements OnInit {
   ngOnInit() {
     this.employeForm=new FormGroup ({
 
-      username: new FormControl('',Validators.required),
-      password: new FormControl('',[Validators.required, Validators.minLength(6)]),
-      profile: new FormControl('',Validators.required),
+     
+      user: new FormControl('',Validators.required),
       noms: new FormControl('',Validators.required),
       naissance: new FormControl('',Validators.required),
       adresse: new FormControl('',Validators.required),
@@ -39,29 +41,20 @@ export class EmployesComponent implements OnInit {
       nomFonction: new FormControl('',Validators.required),
       service: new FormControl('',Validators.required)
     });
-    this.profileService.getProfile().subscribe(
-      data => {
-        this.roles = data;
-       
-      } )
-      this.servicesService.getService().subscribe(
-        data => {
-          this.services = data;
-         
-        } )
+    
   }
   get f(){return this.employeForm.controls;}
 
   onSubmit(){
-
+        
+     this.loading=true;
     
     if (this.employeForm.invalid) {
       return;
     }
 
     const employe={
-      username: this.employeForm.value.username,
-      password: this.employeForm.value.password,
+     
       noms: this.employeForm.value.noms,
       naissance: this.employeForm.value.naissance,
       adresse: this.employeForm.value.adresse,
@@ -70,17 +63,17 @@ export class EmployesComponent implements OnInit {
       genre: this.employeForm.value.genre,
       sfamiliale: this.employeForm.value.sfamiliale,
       nomFonction: this.employeForm.value.nomFonction,
-      profile: `api/roles/${this.employeForm.value.profile}`,
-      service:`api/services/${this.employeForm.value.service}`
+      user:        this.employeForm.value.user,
+      service:     this.employeForm.value.service
     }
     console.log(employe);
     this.employerService.ajoutEmployer(employe).subscribe(data =>
       {
-        alert('SUCCESS!! :-)\n\n' + JSON.stringify(data));
-        this.router.navigateByUrl('/listeEmployes');
-       
-      })
-
+       alert(JSON.stringify(data["message"]));
+        this.router.navigate(['/Accueil/listeEmployes']);
+      }, 
+      error => console.log(error));
+  
   }
   onReset() {
     this.employeForm.reset();

@@ -25,4 +25,8 @@ export class EmployerService {
    getEmploye(){
      return this.Http.get(`${environment.apiUrl}/api/listeEmployes`);
    }
+   deleteEmploye(id: number){
+    return this.Http.delete(`${environment.apiUrl}/api/employes/${id}`);
+
+  }
 }

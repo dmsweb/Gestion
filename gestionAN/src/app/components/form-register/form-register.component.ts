@@ -12,6 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 export class FormRegisterComponent implements OnInit {
   registerForm: FormGroup;
   profiles: any;
+  loading= true;
 
   constructor(
     private profileService: ProfileService,
@@ -32,7 +33,9 @@ export class FormRegisterComponent implements OnInit {
       }
     )
   }
+  
   onSubmit(){
+    this.loading=true;
     const donnes = {
       username: this.registerForm.value.username,
       password: this.registerForm.value.password,
@@ -41,8 +44,9 @@ export class FormRegisterComponent implements OnInit {
     console.log(donnes);
     this.userService.creerUser(donnes).subscribe(data =>
       {
+      
         alert(JSON.stringify(data));
-        this.router.navigateByUrl('/listeUser');
+        this.router.navigateByUrl('/Accueil');
        
       })
   }
