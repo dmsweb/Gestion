@@ -20,87 +20,51 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class CongesController extends AbstractController
 {
-    private $tokenStorage;
-    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $entityManager)
-    {
-        $this->tokenStorage = $tokenStorage;
-        $this->entityManager = $entityManager;
-    }   
-    /**
-     * @Route("/conges", name="conges", methods={"POST"})
-     */
-    public function NouveauConge(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $userPasswordEncoder)
-    {
-        $values= json_decode($request->getContent());
-         if (isset($values->typeConge,$values->nbrejours,$values->employe,$values->dateFin,$values->dateReprise)) 
-         {
-            $nouveauConge= new Conge();
-            $dateDebut=    new \DateTime;
+    // private $tokenStorage;
+    // public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $entityManager)
+    // {
+    //     $this->tokenStorage = $tokenStorage;
+    //     $this->entityManager = $entityManager;
+    // }   
+    // /**
+    //  * @Route("/conges", name="conges", methods={"POST"})
+    //  */
+    // public function NouveauConge(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $userPasswordEncoder)
+    // {
+    //     $values= json_decode($request->getContent());
+    //      if (isset($values->typeConge,$values->nbrejours,$values->employe,$values->dateFin,$values->dateReprise)) 
+    //      {
+    //         $nouveauConge= new Conge();
+    //         $dateDebut=    new \DateTime;
 
-            $RepoEmploye= $this->getDoctrine()->getRepository(Employe::class);
-            $employe= $RepoEmploye->find($values->employe);
+    //         $RepoEmploye= $this->getDoctrine()->getRepository(Employe::class);
+    //         $employe= $RepoEmploye->find($values->employe);
           
 
-            $nouveauConge->setDateDebut($dateDebut);
-            $nouveauConge->setDateFin($values->dateFin);
-            $nouveauConge->setDateReprise($values->dateReprise);
-            $nouveauConge->setTypeConge($values->typeConge);
-            $nouveauConge->setNbreJours($values->nbrejours);
-            $nouveauConge->setEmploye($employe);
+    //         $nouveauConge->setDateDebut($dateDebut);
+    //         $nouveauConge->setDateFin($values->dateFin);
+    //         $nouveauConge->setDateReprise($values->dateReprise);
+    //         $nouveauConge->setTypeConge($values->typeConge);
+    //         $nouveauConge->setNbreJours($values->nbrejours);
+    //         $nouveauConge->setEmploye($employe);
 
-            $entityManager->persist($nouveauConge);
-            $entityManager->flush();
-
-         
-            $data = [
-                'status' => 201,
-                'message' => 'le nouveau Congé est bien cree: '
-            ];
-            return new JsonResponse($data, 201); 
-        }else
-        $data = [
-            'status' => 500,
-            'message' => 'Vous devez renseigner tous les champs ?'
-        ];
-        return new JsonResponse($data, 500);
-        
-    }
-
-    /**
-     * @Route("/permissions", name="permissions", methods={"POST"})
-     */
-    public function NouvellePermissions(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $userPasswordEncoder)
-    {
-        $value= json_decode($request->getContent());
-         if (isset($value->status,$value->motif,$value->employe,$value->dateDu,$value->audate)) 
-         {
-            $nouvellePermission= new Permission();
-            
-            $RepoEmployes= $this->getDoctrine()->getRepository(Employe::class);
-            $employes= $RepoEmployes->find($value->employe);
-            // dd($employe);
-
-            $nouvellePermission->setDateDu($value->dateDu);
-            $nouvellePermission->setAudate($value->audate);
-            $nouvellePermission->setMotif($value->motif);
-            $nouvellePermission->setStatus($value->status);
-            $nouvellePermission->setEmploye($employes);
-
-            $entityManager->persist($nouvellePermission);
-            $entityManager->flush();
+    //         $entityManager->persist($nouveauConge);
+    //         $entityManager->flush();
 
          
-            $data = [
-                'status' => 201,
-                'message' => 'la Permission est bien cree: '
-            ];
-            return new JsonResponse($data, 201); 
-        }else
-        $data = [
-            'status' => 500,
-            'message' => 'Vous devez renseigner tous les champs ?'
-        ];
-        return new JsonResponse($data, 500);
+    //         $data = [
+    //             'status' => 201,
+    //             'message' => 'le nouveau Congé est bien cree: '
+    //         ];
+    //         return new JsonResponse($data, 201); 
+    //     }else
+    //     $data = [
+    //         'status' => 500,
+    //         'message' => 'Vous devez renseigner tous les champs ?'
+    //     ];
+    //     return new JsonResponse($data, 500);
         
-    }
+    // }
+
+   
 }

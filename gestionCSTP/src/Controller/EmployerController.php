@@ -7,7 +7,9 @@ use App\Entity\Employe;
 use App\Entity\Profile;
 use App\Entity\Service;
 use App\Entity\Fonction;
+use App\Repository\UserRepository;
 use App\Repository\EmployeRepository;
+use App\Repository\ServiceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,10 +34,10 @@ class EmployerController extends AbstractController
     /**
      * @Route("/Employer", name="employer", methods={"POST"})
      */
-    public function AjouterEmployer(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $userPasswordEncoder)
+    public function AjouterEmployer(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $userPasswordEncoder, UserRepository $repoUser, ServiceRepository $ripoService)
     {
         $value= json_decode($request->getContent());
-        if (isset($value->noms,$value->naissance,$value->adresse,$value->telephone,$value->cin,$value->genre,$value->sfamiliale,$value->service,$value->username,$value->password,$value->profile,$value->nomFonction))
+        if (isset($value->noms,$value->naissance,$value->adresse,$value->telephone,$value->cin,$value->genre,$value->sfamiliale,$value->service,$value->user,$value->nomFonction))
          {
             $daterecrut= new \DateTime();
             $dateEmb=    new  \DateTime();
@@ -43,18 +45,14 @@ class EmployerController extends AbstractController
          
             ## User
             $user=    new User();
-            $roleRepo= $this->getDoctrine()->getRepository(Profile::class);
-            $role= $roleRepo->find($value->profile);
-            // dd($role);
-            $user->setUsername($value->username);
-            $user->setPassword($userPasswordEncoder->encodePassword($user, $value->password));
-            $user->setProfile($role);
-            $entityManager->persist($user);
-            // dd($user);
+            $roleRepo= $value->user;
+            $role= $repoUser->find($roleRepo);
             
+           
                   
             #La longueur total du matricule = 8 ex =CSTP00001
 
+            $annes=Date('y');
             $kods = rand(1000, 9999);
             $num= "CSTP";
            
@@ -65,16 +63,15 @@ class EmployerController extends AbstractController
              
              $fonction= new Fonction();
 
-            $reposService=$this->getDoctrine()->getRepository(Service::class);
-            $service= $reposService->find($value->service);
+            $reposService=$value->service;
+            $service=$ripoService ->find($reposService);
+            
 
 
              $fonction->setNomFonction($value->nomFonction);
              $fonction->setService($service);
              $entityManager->persist($fonction);
-        //    dd($fonction);
-
-           $entityManager->flush();
+             $entityManager->flush();
             // dd($service);
 
             $employe->setMatricule($matricule);
@@ -85,7 +82,7 @@ class EmployerController extends AbstractController
             $employe->setCin($value->cin);
             $employe->setGenre($value->genre);
             $employe->setSfamiliale($value->sfamiliale);
-            $employe->setUser($user);
+            $employe->setUser($role);
             $employe->setService($service);
             $employe->setDateRecrut($daterecrut);
             $employe->setDateEmbauche($dateEmb);
@@ -111,7 +108,7 @@ class EmployerController extends AbstractController
     }
 
     /**
-    * @Route("/users/{id}", name="listes", methods={"DELETE"})
+    * @Route("/employes/{id}", name="listes", methods={"DELETE"})
     */
     public function deleteUser($id)
     {
@@ -120,7 +117,7 @@ class EmployerController extends AbstractController
             'message' => 'Utilisateur supprime  !!!'
             ];
 
-        $delete= $this->getDoctrine()->getRepository(User::class)->findOneById($id);
+        $delete= $this->getDoctrine()->getRepository(Employe::class)->findOneById($id);
        
         if ($delete) {
             $em = $this->getDoctrine()->getManager();
@@ -135,7 +132,7 @@ class EmployerController extends AbstractController
               ### c'est l'affichage des employers 
 
     /**
-    * @Route("/listeEmployes", name="liste", methods={"GET"})
+    * @Route("/listeEmployes", name="listeemploye", methods={"GET"})
     */
     public function listerEmploye(Request $request, EmployeRepository $ripos )
     {

@@ -79,5 +79,6 @@ class ProfileController extends AbstractController
      }
      return new JsonResponse($datas, 200); 
     }
+    
    
 }

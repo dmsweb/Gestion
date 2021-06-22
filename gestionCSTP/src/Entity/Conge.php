@@ -3,11 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *   normalizationContext={"groups"={"read"}},
+ *   denormalizationContext={"groups"={"write"}},
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\CongeRepository")
  */
 class Conge
@@ -21,7 +26,7 @@ class Conge
     private $id;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="string")
      * @Groups({"read","write"})
      */
     private $dateDebut;
@@ -46,26 +51,32 @@ class Conge
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read","write"})
      */
     private $nbrejours;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Employe", inversedBy="conges")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Employe", inversedBy="conges", cascade={"persist", "remove"})
      * @Groups({"read","write"})
      */
     private $employe;
+    public function __construct()
+    {
+        $this->employe = new ArrayCollection();
+       
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDateDebut(): ?\DateTimeInterface
+    public function getDateDebut(): ?string
     {
         return $this->dateDebut;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    public function setDateDebut(string $dateDebut): self
     {
         $this->dateDebut = $dateDebut;
 

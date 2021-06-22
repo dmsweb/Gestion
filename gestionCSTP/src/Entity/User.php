@@ -36,7 +36,7 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"write","read"})
+     * @Groups({"read"})
      */
     private $id;
 
@@ -58,7 +58,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    // private $roles=[];
+    //private $roles=[];
 
     /**
      * @ORM\Column(type="boolean")
@@ -74,7 +74,7 @@ class User implements UserInterface
     private $profile;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Employe", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Employe", mappedBy="user", orphanRemoval=true)
      */
     private $employes;
 

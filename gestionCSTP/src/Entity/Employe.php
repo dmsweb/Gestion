@@ -2,17 +2,23 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *   normalizationContext={"groups"={"read"}},
- *   denormalizationContext={"groups"={"write"}},
+ * normalizationContext={"groups"={"read"}},
+ * denormalizationContext={"groups"={"write"}},
+ * collectionOperations={
+ *          "get",
+ *          "post"={  
+ *  "access_control"="is_granted('POST', object)",
+*}
+ *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\EmployeRepository")
  */
@@ -100,7 +106,6 @@ class Employe
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="employes")
-     * @ORM\JoinColumn(nullable=false)
      * @Groups({"read","write"})
      */
     private $service;

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Controller\SecurityController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +24,13 @@ class SecurityController extends AbstractController
  */
 
 {
+    private $tokenStorage;
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+        
+    }
+     
     public function register(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $em = $this->getDoctrine()->getManager();
@@ -44,6 +52,52 @@ class SecurityController extends AbstractController
         return new Response(sprintf('User %s successfully created', $user->getUsername()));
     }
 
-   
+     /**
+     * @Route("/users", name="affiches", methods={"GET"})
+     */
+   public function afficheUser(UserRepository $ripos ){
 
+    $user= new User($ripos);
+
+    $affiche=$ripos->findAll();
+
+    $data= [];
+    $i=0;
+    $user= $this->tokenStorage->getToken()->getUser();
+    $affiche=$this->getDoctrine()->getRepository(User::class);
+    $affiches=$affiche->findAll();
+        
+
+    if ($user->getRoles()[0] ==='ROLE_ADMIN') {
+       
+        foreach ($affiches as $user)
+        {
+            if ($user->getProfile()->getLibelle() === 'ROLE_SECRETAIRE'||
+                $user->getProfile()->getLibelle() === 'ROLE_EMPLOYE')
+                {
+                $data[$i]=$user;
+                $i++;
+
+            }
+        }
+   }  elseif($profile=== 'ROLE_SECRETAIRE')
+   {
+       foreach($liste as $user)
+       {
+           if ($user->getProfile()->getLibelle() === 'ROLE_EMPLOYE') 
+           {
+               $data[$i]=$user;
+               $i++;
+
+           }
+       }
+    }else {
+        $data = [
+            'status' => 401,
+            'message' => 'Désolé accés non autorisé !!!'
+            ];
+        
+    }
+    return $this->json($data, 200);
+    }
 }
